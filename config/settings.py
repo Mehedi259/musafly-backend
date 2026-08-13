@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'flights',
     'visas',
     'umrah',
+    'testimonials',
+    'faqs',
 ]
 
 MIDDLEWARE = [

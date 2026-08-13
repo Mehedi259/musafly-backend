@@ -25,6 +25,8 @@ urlpatterns = [
     path('api/', include('flights.urls')),
     path('api/', include('visas.urls')),
     path('api/', include('umrah.urls')),
+    path('api/', include('testimonials.urls')),
+    path('api/', include('faqs.urls')),
     
     # Swagger URLs
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

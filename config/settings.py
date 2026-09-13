@@ -52,6 +52,10 @@ INSTALLED_APPS = [
     'umrah',
     'testimonials',
     'faqs',
+    'inventory',
+    'customers',
+    'reports',
+    'marketing',
 ]
 
 MIDDLEWARE = [

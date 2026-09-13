@@ -29,12 +29,15 @@ urlpatterns = [
     path('api/', include('umrah.urls')),
     path('api/', include('testimonials.urls')),
     path('api/', include('faqs.urls')),
+    path('api/', include('inventory.urls')),
+    path('api/', include('customers.urls')),
+    path('api/', include('reports.urls')),
+    path('api/', include('marketing.urls')),
     
     # Swagger URLs
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

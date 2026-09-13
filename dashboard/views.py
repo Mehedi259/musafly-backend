@@ -11,6 +11,7 @@ from customers.models import Customer
 from tours.models import Tour
 from visas.models import Visa
 from umrah.models import UmrahPackage
+from deals.models import Deal
 
 class DashboardStatsView(APIView):
     def get(self, request):
@@ -45,14 +46,16 @@ class DashboardStatsView(APIView):
         tour_qs = Tour.objects.all()
         visa_qs = Visa.objects.all()
         umrah_qs = UmrahPackage.objects.all()
+        deal_qs = Deal.objects.all()
 
         # 1. Top Stats
-        total_bookings = flight_qs.count() + tour_qs.count() + visa_qs.count() + umrah_qs.count()
+        total_bookings = flight_qs.count() + tour_qs.count() + visa_qs.count() + umrah_qs.count() + deal_qs.count()
         
         top_stats = [
             {'label': 'মোট বুকিং', 'value': str(total_bookings), 'inc': '০%', 'icon': 'Briefcase', 'iconBg': 'bg-blue-100', 'iconColor': 'text-blue-600'},
             {'label': 'বুক করা ফ্লাইট', 'value': str(flight_qs.count()), 'inc': '০%', 'icon': 'Plane', 'iconBg': 'bg-indigo-100', 'iconColor': 'text-indigo-600'},
             {'label': 'বুক করা ট্যুর', 'value': str(tour_qs.count()), 'inc': '০%', 'icon': 'Map', 'iconBg': 'bg-green-100', 'iconColor': 'text-green-600'},
+            {'label': 'অফলাইন ডিলস', 'value': str(deal_qs.count()), 'inc': '০%', 'icon': 'Briefcase', 'iconBg': 'bg-purple-100', 'iconColor': 'text-purple-600'},
             {'label': 'অ্যাক্টিভ কাস্টমার', 'value': str(customer_qs.count()), 'inc': '০%', 'icon': 'Users', 'iconBg': 'bg-sky-100', 'iconColor': 'text-sky-600'},
         ]
         
@@ -97,6 +100,8 @@ class DashboardStatsView(APIView):
         for u in umrah_qs.order_by('-id')[:3]:
             all_recent.append({'id': u.id, 'sort_key': u.id, 'customer': u.package_name, 'service': 'ওমরাহ', 'icon': 'Moon', 'date': '-', 'status': 'Available', 'statusColor': 'bg-yellow-100 text-yellow-700'})
 
+        for d in deal_qs.order_by('-id')[:3]:
+            all_recent.append({'id': d.id, 'sort_key': d.id, 'customer': d.customer_name, 'service': d.service_category, 'icon': 'Briefcase', 'date': d.created_at.strftime('%d %b, %Y'), 'status': 'Available', 'statusColor': 'bg-purple-100 text-purple-700'})
         all_recent.sort(key=lambda x: x['sort_key'], reverse=True)
         recent_bookings = all_recent[:5]
 

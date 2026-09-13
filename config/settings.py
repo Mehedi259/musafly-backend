@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'testimonials',
     'faqs',
     'inventory',
+    'deals',
     'customers',
     'reports',
     'marketing',

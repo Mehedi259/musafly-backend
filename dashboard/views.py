@@ -120,14 +120,18 @@ class DashboardStatsView(APIView):
             })
 
         # 6. Upcoming Flights
-        # We query from the global Flight model here, regardless of time_filter, to always show future flights
-        flights = Flight.objects.filter(departure_time__gte=timezone.now()).order_by('departure_time')[:5]
+        # Now querying from Deal model for upcoming flights based on travel_date
+        deals_flights = Deal.objects.filter(
+            service_category__in=['Flight Ticket', 'ফ্লাইট টিকিট'],
+            travel_date__gte=timezone.now().date()
+        ).order_by('travel_date')[:5]
+        
         upcoming_flights = []
-        for f in flights:
+        for d in deals_flights:
             upcoming_flights.append({
-                'flight': f.airline,
-                'route': f"{f.origin} → {f.destination}",
-                'date': f.departure_time.strftime('%d %b, %Y'),
+                'flight': d.airline_name if d.airline_name else 'Unknown Airline',
+                'route': d.route_destination,
+                'date': d.travel_date.strftime('%d %b, %Y'),
                 'status': 'অন টাইম',
                 'statusColor': 'bg-green-100 text-green-700'
             })
